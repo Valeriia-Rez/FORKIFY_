@@ -12,7 +12,6 @@ const state = {};
 const controlSearch = async() => {
     //Get query from view
     const query = searchView.getInput();
-    console.log(query);
 
     if (query) {
         // New search object and add to state
@@ -63,10 +62,10 @@ const controlRecipe = async() => {
 
         //Create new recipe object
         state.recipe = new Recipe(id);
-
         try {
-            //Get recipe data
+            //Get recipe data and parse ingredients
             await state.recipe.getRecipe();
+            state.recipe.parseIngredients();
 
             //Calculate servings and time
             state.recipe.calcTime();
