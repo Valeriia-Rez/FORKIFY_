@@ -21,7 +21,7 @@ const limitRecipeTitle = (title, limit = 17) => {
             }
             return acc + cur.length;
         }, 0);
-        return `${newTitle.join(" ")}...)`;
+        return `${newTitle.join(" ")}...`;
     }
     return title;
 };
@@ -74,7 +74,7 @@ const renderButtons = (page, numResults, resPerPage) => {
 export const renderResults = (recipes, page = 1, resPerPage = 10) => {
     //render results of current page
     const start = (page - 1) * resPerPage;
-    const end = page - resPerPage;
+    const end = page * resPerPage;
 
     recipes.slice(start, end).forEach(renderRecipe);
 
