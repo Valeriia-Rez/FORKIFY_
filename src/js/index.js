@@ -1,10 +1,12 @@
 import Search from "./models/Search";
 import Recipe from "./models/Recipe";
 import List from "./models/List";
+import Likes from "./models/Likes";
 import * as searchView from "./views/searchView";
 import * as recipeView from "./views/recipeView";
 import * as listView from "./views/listView";
 import { elements, renderLoader, clearLoader } from "./views/base";
+
 
 /*Global state of the app - Search object,Current recipe object,
 Shopping list object,Liked recipes*/
@@ -121,6 +123,38 @@ elements.shopping.addEventListener("click", e => {
     }
 });
 
+//Like controller
+const controlLike = () => {
+    if (!state.likes) state.likes = new Likes();
+    const currentId = state.recipe.id;
+
+    //User has not yet liked current recipe
+    if (!state.likes.isLiked(currentId)) {
+        //Add like to the state
+        const newLike = state.likes.addLike(
+            currentId,
+            state.recipe.title,
+            state.recipe.author,
+            state.recipe.img
+        );
+
+        //Toogle the like button
+        console.log(state.likes);
+        //Add like to the UI list
+
+
+        //User has liked current recipe
+    } else {
+        //Remove like from the state
+        state.likes.deleteLike(currentId);
+        //Toogle the like button
+
+        //Remove like from UI list
+        console.log(state.likes);
+
+    }
+}
+
 //Handling recipe button clicks
 elements.recipe.addEventListener("click", e => {
     if (e.target.matches(".btn-decrease, .btn-decrease *")) {
@@ -134,8 +168,13 @@ elements.recipe.addEventListener("click", e => {
         state.recipe.updateServings("inc");
         recipeView.updateServingsIngredients(state.recipe);
     } else if (e.target.matches(".recipe__btn--add, .recipe__btn--add *")) {
+        //add ingredients to shopping list
         controlList();
+    } else if (e.target.matches(".recipe__love, .recipe__love *")) {
+        //Like controller
+        controlLike();
     }
+
 });
 
 
